@@ -1,0 +1,22 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/** ------GLOBAL SETTING ------ */
+:root {
+  --theme-hue: 229;
+  --theme-saturation: 29%;
+  --theme-lightness: 29%;
+}
+
+html,
+body {
+  /* background-color: hsl(
+    var(--theme-hue),
+    var(--theme-saturation),
+    var(--theme-lightness)
+  ); */
+  /* Hide scrollbar for IE, Edge and Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
