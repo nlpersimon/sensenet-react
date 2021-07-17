@@ -39,7 +39,7 @@ const DefinitionInput = ({ setSenses }) => {
             skin"
         />
         <button
-          className="bg-white text-xl text-green-600 rounded-full mr-4"
+          className="bg-white text-xl text-blue-600 rounded-full mr-4"
           onClick={submitDefinition}
         >
           <BsSearch />
