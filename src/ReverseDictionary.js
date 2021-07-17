@@ -32,7 +32,7 @@ const DefinitionInput = ({ setSenses }) => {
     <section className="my-10">
       <div className="flex border justify-center rounded-full bg-white w-3/5 ml-4 h-12 shadow-lg">
         <input
-          className="flex-1 px-8 mx-4 rounded-full focus:outline-none"
+          className="flex-1 px-8 mx-4 rounded-l-full focus:outline-none border-r"
           id="input-def"
           ref={defContainer}
           defaultValue="a round fruit with firm, white flesh and a green, red, or yellow
