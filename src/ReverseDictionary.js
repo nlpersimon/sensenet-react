@@ -4,7 +4,10 @@ import { BsSearch } from "react-icons/bs";
 const DefinitionInput = ({ setSenses }) => {
   const defContainer = useRef(null);
 
-  const submitDefinition = () => {
+  const submitDefinition = (e) => {
+    if (e) {
+      e.preventDefault();
+    }
     fetch("http://troubadour.nlplab.cc:1487/camb_reverse", {
       method: "POST",
       mode: "cors",
@@ -30,7 +33,10 @@ const DefinitionInput = ({ setSenses }) => {
 
   return (
     <section className="my-10">
-      <div className="flex border justify-center rounded-full bg-white w-3/5 ml-4 h-12 shadow-lg">
+      <form
+        onSubmit={submitDefinition}
+        className="flex border justify-center rounded-full bg-white w-3/5 ml-4 h-12 shadow-lg"
+      >
         <input
           className="flex-1 px-2 mx-4 rounded-l-full focus:outline-none border-r"
           id="input-def"
@@ -41,10 +47,11 @@ const DefinitionInput = ({ setSenses }) => {
         <button
           className="bg-white text-xl text-blue-600 rounded-full mr-4"
           onClick={submitDefinition}
+          type="submit"
         >
           <BsSearch />
         </button>
-      </div>
+      </form>
       <div className="flex justify-between transform -translate-y-4"></div>
     </section>
   );
