@@ -69,9 +69,7 @@ const SenseResult = ({ sense }) => {
       </a>
       <h3 className="text-2xl text-blue-600">{sense.lemma}</h3>
       <p>
-        {sense.definition.en}
-        <br />
-        {sense.definition.ch}
+        {sense.definition.en} &ensp; {sense.definition.ch}
       </p>
     </article>
   );
