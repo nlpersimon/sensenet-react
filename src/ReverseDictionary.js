@@ -8,21 +8,38 @@ const DefinitionInput = ({ setSenses }) => {
     if (e) {
       e.preventDefault();
     }
-    fetch("http://troubadour.nlplab.cc:1487/camb_reverse", {
+    fetch("http://troubadour.nlplab.cc:1487/parse_query", {
       method: "POST",
       mode: "cors",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        definition: defContainer.current.value,
+        query: defContainer.current.value,
       }),
     })
       .then((response) => {
         return response.json();
       })
       .then((results) => {
-        setSenses(results);
+        fetch("http://troubadour.nlplab.cc:1487/camb_reverse", {
+          method: "POST",
+          mode: "cors",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            definition: results.definition,
+            pos: results.pos,
+          }),
+        })
+          .then((response) => {
+            return response.json();
+          })
+          .then((results) => {
+            setSenses(results);
+          })
+          .catch((error) => console.log(error));
       })
       .catch((error) => console.log(error));
   };
