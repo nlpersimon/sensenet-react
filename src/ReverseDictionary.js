@@ -64,11 +64,11 @@ const SenseResult = ({ sense }) => {
       <a
         href={`https://dictionary.cambridge.org/dictionary/english-chinese-traditional/${sense.lemma}`}
       >
-        <span className="text-gray-500">{"dctionary.cambridge.org > "}</span>
-        {sense.lemma}
+        {"dctionary.cambridge.org > "}
+        <span className="text-gray-500">{sense.lemma}</span>
       </a>
       <h3 className="text-2xl text-blue-600">{sense.lemma}</h3>
-      <p>
+      <p className="text-gray-600">
         {sense.definition.en} &ensp; {sense.definition.ch}
       </p>
     </article>
