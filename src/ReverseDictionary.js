@@ -58,7 +58,7 @@ const DefinitionInput = ({ setSenses }) => {
 };
 
 const SenseResult = ({ sense }) => {
-  console.log(sense);
+  //console.log(sense);
   return (
     <article className="mb-8">
       <a
@@ -67,9 +67,15 @@ const SenseResult = ({ sense }) => {
         {"dctionary.cambridge.org > "}
         <span className="text-gray-500">{sense.lemma}</span>
       </a>
-      <h3 className="text-2xl text-blue-600">{sense.lemma}</h3>
+      <h3 className="text-2xl text-blue-600">
+        {sense.lemma}
+        {sense.guideword && <span>&ensp;{sense.guideword}</span>}
+        {sense.pos && (
+          <span className="text-xl text-orange-500">&ensp;{sense.pos}</span>
+        )}
+      </h3>
       <p className="text-gray-600">
-        {sense.definition.en} &ensp; {sense.definition.ch}
+        {sense.definition.en}&ensp;{sense.definition.ch}
       </p>
     </article>
   );
