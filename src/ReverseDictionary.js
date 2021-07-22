@@ -1,8 +1,12 @@
 import { useState, useEffect, useRef } from "react";
 import { BsSearch } from "react-icons/bs";
+import { useParams } from "react-router";
+import { useHistory } from "react-router";
 
 const DefinitionInput = ({ setSenses }) => {
   const defContainer = useRef(null);
+  const { q } = useParams();
+  const history = useHistory();
 
   const submitDefinition = (e) => {
     if (e) {
@@ -44,25 +48,33 @@ const DefinitionInput = ({ setSenses }) => {
       .catch((error) => console.log(error));
   };
 
+  const defaultDefinition = "keep delaying";
+
   useEffect(() => {
-    submitDefinition();
-  }, []);
+    if (q) {
+      defContainer.current.value = q;
+      submitDefinition();
+    } else {
+      history.push(`/${defaultDefinition}`);
+    }
+  }, [q]);
 
   return (
     <section className="my-10">
       <form
-        onSubmit={submitDefinition}
+        onSubmit={() => {
+          history.push(`/${defContainer.current.value}`);
+        }}
         className="flex border justify-center rounded-full bg-white w-3/5 ml-4 h-12 shadow-lg"
       >
         <input
           className="flex-1 px-2 mx-4 rounded-l-full focus:outline-none border-r"
           id="input-def"
           ref={defContainer}
-          defaultValue="keep delaying"
+          defaultValue={defaultDefinition}
         />
         <button
           className="bg-white text-xl text-blue-600 rounded-full mr-4"
-          onClick={submitDefinition}
           type="submit"
         >
           <BsSearch />

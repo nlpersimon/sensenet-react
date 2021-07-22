@@ -1,14 +1,18 @@
 import { Panel } from "./Layout";
 import ReverseDictionary from "./ReverseDictionary";
-import LookupDictionary from "./LookupDictionary";
+import { BrowserRouter as Router, Route } from "react-router-dom";
 
 function App() {
   return (
-    <main className="h-screen w-screen">
-      <Panel>
-        <ReverseDictionary />
-      </Panel>
-    </main>
+    <Router>
+      <Route path="/:q?">
+        <main className="h-screen w-screen">
+          <Panel>
+            <ReverseDictionary />
+          </Panel>
+        </main>
+      </Route>
+    </Router>
   );
 }
 
