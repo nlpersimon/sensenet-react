@@ -58,8 +58,7 @@ const DefinitionInput = ({ setSenses }) => {
           className="flex-1 px-2 mx-4 rounded-l-full focus:outline-none border-r"
           id="input-def"
           ref={defContainer}
-          defaultValue="a round fruit with firm, white flesh and a green, red, or yellow
-            skin"
+          defaultValue="keep delaying"
         />
         <button
           className="bg-white text-xl text-blue-600 rounded-full mr-4"
