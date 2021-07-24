@@ -87,6 +87,18 @@ const DefinitionInput = ({ setSenses }) => {
 
 const SenseResult = ({ sense }) => {
   //console.log(sense);
+  const constructEnDefHtml = (sense) => {
+    const highlight = new Set(sense.highlight);
+    return sense.definition.en.split(" ").map((text, i) => {
+      return highlight.has(i) ? (
+        <span className="text-red-500" key={i}>
+          {text}{" "}
+        </span>
+      ) : (
+        text + " "
+      );
+    });
+  };
   return (
     <article className="mb-8">
       <a
@@ -103,7 +115,7 @@ const SenseResult = ({ sense }) => {
         )}
       </h3>
       <p className="text-gray-600">
-        {sense.definition.en}&ensp;{sense.definition.ch}
+        {constructEnDefHtml(sense)}&ensp;{sense.definition.ch}
       </p>
     </article>
   );
