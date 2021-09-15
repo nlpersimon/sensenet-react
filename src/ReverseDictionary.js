@@ -41,6 +41,7 @@ const DefinitionInput = ({ setSenses }) => {
             return response.json();
           })
           .then((results) => {
+            console.log(results);
             setSenses(results);
           })
           .catch((error) => console.log(error));
@@ -113,6 +114,7 @@ const SenseResult = ({ sense }) => {
         {sense.pos && (
           <span className="text-xl text-orange-500">&ensp;{sense.pos}</span>
         )}
+        <span className="text-xl text-myPurple-500">&ensp;{sense.level}</span>
       </h3>
       <p className="text-gray-600">
         {constructEnDefHtml(sense)}&ensp;{sense.definition.ch}

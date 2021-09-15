@@ -6,6 +6,9 @@ const colors = {
     orange: {
       500: "#EF4A27",
     },
+    myPurple: {
+      500: "#6F5CE0",
+    },
   },
 };
 
