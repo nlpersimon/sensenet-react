@@ -3,7 +3,7 @@ import { BsSearch } from "react-icons/bs";
 import { useParams } from "react-router";
 import { useHistory } from "react-router";
 
-const DefinitionInput = ({ setSenses }) => {
+const DefinitionInput = ({ setSensets }) => {
   const defContainer = useRef(null);
   const { q } = useParams();
   const history = useHistory();
@@ -12,39 +12,51 @@ const DefinitionInput = ({ setSenses }) => {
     if (e) {
       e.preventDefault();
     }
-    fetch("http://troubadour.nlplab.cc:1487/parse_query", {
-      method: "POST",
+    // fetch("http://troubadour.nlplab.cc:1487/parse_query", {
+    //   method: "POST",
+    //   mode: "cors",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    //   body: JSON.stringify({
+    //     query: defContainer.current.value,
+    //   }),
+    // })
+    //   .then((response) => {
+    //     return response.json();
+    //   })
+    //   .then((results) => {
+    //     fetch("http://troubadour.nlplab.cc:1487/camb_reverse", {
+    //       method: "POST",
+    //       mode: "cors",
+    //       headers: {
+    //         "Content-Type": "application/json",
+    //       },
+    //       body: JSON.stringify({
+    //         definition: results.definition,
+    //         pos: results.pos,
+    //       }),
+    //     })
+    //       .then((response) => {
+    //         return response.json();
+    //       })
+    //       .then((results) => {
+    //         console.log(results);
+    //         setSensets(results);
+    //       })
+    //       .catch((error) => console.log(error));
+    //   })
+    //   .catch((error) => console.log(error));
+    fetch(`http://venom.nlplab.cc:9484/api/rd?query=${encodeURIComponent(defContainer.current.value)}`, {
+      method: "GET",
       mode: "cors",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        query: defContainer.current.value,
-      }),
     })
       .then((response) => {
         return response.json();
       })
       .then((results) => {
-        fetch("http://troubadour.nlplab.cc:1487/camb_reverse", {
-          method: "POST",
-          mode: "cors",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            definition: results.definition,
-            pos: results.pos,
-          }),
-        })
-          .then((response) => {
-            return response.json();
-          })
-          .then((results) => {
-            console.log(results);
-            setSenses(results);
-          })
-          .catch((error) => console.log(error));
+        console.log(results);
+        setSensets(results.message);
       })
       .catch((error) => console.log(error));
   };
@@ -88,59 +100,69 @@ const DefinitionInput = ({ setSenses }) => {
 
 const SenseResult = ({ sense }) => {
   //console.log(sense);
-  const constructEnDefHtml = (sense) => {
-    const highlight = new Set(sense.highlight);
-    return sense.definition.en.split(" ").map((text, i) => {
-      return highlight.has(i) ? (
-        <span className="text-red-500" key={i}>
-          {text}{" "}
-        </span>
-      ) : (
-        text + " "
-      );
-    });
-  };
+  // const constructEnDefHtml = (sense) => {
+  //   const highlight = new Set(sense.highlight);
+  //   return sense.definition.en.split(" ").map((text, i) => {
+  //     return highlight.has(i) ? (
+  //       <span className="text-red-500" key={i}>
+  //         {text}{" "}
+  //       </span>
+  //     ) : (
+  //       text + " "
+  //     );
+  //   });
+  // };
+  const src = sense.source === 'cambridge' ? 'dictionary.cambridge.org' : 'wordnetweb.princeton.edu';
   return (
-    <article className="mb-8">
+    <section className="mt-2">
       <a
-        href={`https://dictionary.cambridge.org/dictionary/english-chinese-traditional/${sense.lemma}`}
+        href={sense.source_url}
       >
-        {"dctionary.cambridge.org > "}
-        <span className="text-gray-500">{sense.lemma}</span>
+        {`${src}`}
       </a>
-      <h3 className="text-2xl text-blue-600">
-        {sense.lemma}
-        {sense.guideword && <span>&ensp;{sense.guideword}</span>}
-        {sense.pos && (
-          <span className="text-xl text-orange-500">&ensp;{sense.pos}</span>
-        )}
-        <span className="text-xl text-myPurple-500">&ensp;{sense.level}</span>
-      </h3>
       <p className="text-gray-600">
-        {constructEnDefHtml(sense)}&ensp;{sense.definition.ch}
+        {sense.definition}&ensp;{sense.definition.ch}
       </p>
-    </article>
+    </section>
   );
 };
 
-const ReverseResults = ({ senses }) => {
+const SensetResult = ({ senset }) => {
+  return (
+    <article className="mb-8">
+      <h3 className="text-2xl text-blue-600">
+        {senset.word}
+        {senset.guideword && <span>&ensp;{senset.guideword}</span>}
+        {senset.pos_norm && (
+          <span className="text-xl text-orange-500">&ensp;{senset.pos_norm}</span>
+        )}
+        <span className="text-xl text-myPurple-500">&ensp;{senset.level}</span>
+      </h3>
+      {senset.senses.map((sense) => (
+        <SenseResult sense={sense} key={sense.sense_id}/>
+      ))}
+    </article>
+  )
+}
+
+const ReverseResults = ({ sensets }) => {
   return (
     <section>
       <div className="bg-white px-4 mx-4 mb-4 rounded pb-4">
-        {senses.map((sense) => (
-          <SenseResult sense={sense} key={sense.sense} />
+        {sensets.map((senset) => (
+          <SensetResult senset={senset.senset} key={senset.senset.senset_id} />
         ))}
       </div>
     </section>
   );
 };
 
-const ReverseDictionary = ({ setSense }) => {
-  const [senses, setSenses] = useState([]);
+const ReverseDictionary = () => {
+  const [sensets, setSensets] = useState([]);
   return (
     <div className="ml-32">
-      <DefinitionInput setSenses={setSenses} />
-      <ReverseResults senses={senses} setSense={setSense} />
+      <DefinitionInput setSensets={setSensets} />
+      <ReverseResults sensets={sensets} />
     </div>
   );
 };
