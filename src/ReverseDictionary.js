@@ -121,7 +121,7 @@ const SenseResult = ({ sense }) => {
         {`${src}`}
       </a>
       <p className="text-gray-600">
-        {sense.definition}&ensp;{sense.definition.ch}
+        {sense.en_def}&ensp;{sense.ch_def}
       </p>
     </section>
   );
