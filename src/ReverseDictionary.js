@@ -12,42 +12,7 @@ const DefinitionInput = ({ setSensets }) => {
     if (e) {
       e.preventDefault();
     }
-    // fetch("http://troubadour.nlplab.cc:1487/parse_query", {
-    //   method: "POST",
-    //   mode: "cors",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: JSON.stringify({
-    //     query: defContainer.current.value,
-    //   }),
-    // })
-    //   .then((response) => {
-    //     return response.json();
-    //   })
-    //   .then((results) => {
-    //     fetch("http://troubadour.nlplab.cc:1487/camb_reverse", {
-    //       method: "POST",
-    //       mode: "cors",
-    //       headers: {
-    //         "Content-Type": "application/json",
-    //       },
-    //       body: JSON.stringify({
-    //         definition: results.definition,
-    //         pos: results.pos,
-    //       }),
-    //     })
-    //       .then((response) => {
-    //         return response.json();
-    //       })
-    //       .then((results) => {
-    //         console.log(results);
-    //         setSensets(results);
-    //       })
-    //       .catch((error) => console.log(error));
-    //   })
-    //   .catch((error) => console.log(error));
-    fetch(`http://venom.nlplab.cc:9484/api/rd?query=${encodeURIComponent(defContainer.current.value)}`, {
+    fetch(`http://venom.nlplab.cc:9484/api/compound?compound=${encodeURIComponent(defContainer.current.value)}`, {
       method: "GET",
       mode: "cors",
     })
@@ -55,8 +20,19 @@ const DefinitionInput = ({ setSensets }) => {
         return response.json();
       })
       .then((results) => {
-        console.log(results);
-        setSensets(results.message);
+        console.log(results)
+        fetch(`http://venom.nlplab.cc:9484/api/rd?query=${encodeURIComponent(results.query)}&pos=${encodeURIComponent(results.pos)}`, {
+          method: "GET",
+          mode: "cors",
+        })
+          .then((response) => {
+            return response.json();
+          })
+          .then((results) => {
+            console.log(results);
+            setSensets(results.message);
+          })
+          .catch((error) => console.log(error));
       })
       .catch((error) => console.log(error));
   };
