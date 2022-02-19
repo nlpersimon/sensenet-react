@@ -37,7 +37,7 @@ const DefinitionInput = ({ setSensets }) => {
       .catch((error) => console.log(error));
   };
 
-  const defaultDefinition = "keep delaying";
+  const defaultDefinition = "pale brownish color like sand";
 
   useEffect(() => {
     if (q) {
