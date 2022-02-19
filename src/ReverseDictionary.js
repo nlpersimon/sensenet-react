@@ -80,7 +80,7 @@ const SenseResult = ({ sense }) => {
     const highlight = new Set(sense.highlight);
     return sense.en_def.split(" ").map((text, i) => {
       return highlight.has(i) ? (
-        <span className="text-red-500" key={i}>
+        <span className="text-googleRed-500" key={i}>
           {text}{" "}
         </span>
       ) : (
@@ -94,7 +94,7 @@ const SenseResult = ({ sense }) => {
       <a
         href={sense.source_url}
       >
-        {`${src}`}
+        {`https://${src}`}
       </a>
       <p className="text-gray-600">
         {constructEnDefHtml(sense)}&ensp;{sense.ch_def}
@@ -106,7 +106,7 @@ const SenseResult = ({ sense }) => {
 const SensetResult = ({ senset }) => {
   return (
     <article className="mb-8">
-      <h3 className="text-2xl text-blue-600">
+      <h3 className="text-2xl text-googleBlue-500">
         {senset.word}
         {senset.guideword && <span>&ensp;{senset.guideword}</span>}
         {senset.pos_norm && (

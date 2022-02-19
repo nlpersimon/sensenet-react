@@ -9,6 +9,12 @@ const colors = {
     myPurple: {
       500: "#6F5CE0",
     },
+    googleBlue: {
+      500: "#1A0DAB",
+    },
+    googleRed: {
+      500: "#EA4335"
+    }
   },
 };
 
