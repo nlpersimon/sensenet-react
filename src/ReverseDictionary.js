@@ -21,7 +21,13 @@ const DefinitionInput = ({ setSensets }) => {
       })
       .then((results) => {
         console.log(results)
-        fetch(`http://venom.nlplab.cc:9484/api/rd?query=${encodeURIComponent(results.query)}&pos=${encodeURIComponent(results.pos)}`, {
+        let apiUrl = '';
+        if (results.senset) {
+          apiUrl = `http://venom.nlplab.cc:9484/api/senset?headword=${encodeURIComponent(results.senset)}&pos=${encodeURIComponent(results.pos)}`;
+        } else {
+          apiUrl = `http://venom.nlplab.cc:9484/api/rd?query=${encodeURIComponent(results.query)}&pos=${encodeURIComponent(results.pos)}`;
+        }
+        fetch(apiUrl, {
           method: "GET",
           mode: "cors",
         })
